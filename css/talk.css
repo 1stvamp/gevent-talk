@@ -33,14 +33,14 @@ section {
     color: #767676 !important;
 }
 
-.slide-1 {
-    background-image: url('../images/westalkalltheway.png');
-    background-position: left center;
-}
-
 .slide-2 {
     background-image: url('../images/westalkwho.png');
     background-position: -3em 0;
+}
+
+.slide-5 {
+    background-image: url('../images/greencotton.jpg');
+    background-position: -3em 2em;
 }
 
 .exit1 {
