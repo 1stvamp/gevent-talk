@@ -65,10 +65,16 @@
 				</section>
 
 				<section>
-
-				<section>
+				<section class="exit1">
 				## sys.exit(0)
+				- 	 Code: [git.io/sd](https://github.com/serverdensity), [git.io/1v](https://github.com/1stvamp)
 				- 	 Slides: [1stvamp.github.com/gevent-talk](http://1stvamp.github.io/gevent-talk)
+				</section>
+				<section class="exit2">
+				## ^D
+				- 	 Jonathan "Joff" Oliver: [about.me/joffie](http://about.me/joffie)
+				- 	 Grab me and say hi `:-)`
+				</section>
 				</section>
 			</div>
 
@@ -126,6 +132,11 @@
 				]
 				});
 			};
+			Reveal.addEventListener( 'slidechanged', function( event ) {
+			    if ($(event.currentSlide).is('.exit2')) {
+				$(event.currentSlide).addClass('animate-exit2');
+			    }
+			});
 			
 		</script>
 
