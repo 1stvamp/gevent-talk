@@ -118,17 +118,14 @@
 				- `greenlet.spawn(c, [...])`
 				</section>
 				<section>
-				## Coroutines and yielding
-				- `gevent.sleep(n)`
-				- Most network libraries will implicitly yield for you, or it'll just work with monkey patching(*)
-				</section>
-				<section>
 				## Flow control
-				- `gevent.joinall(...)`
-				- `gevent.link(g)`
+				- `gevent.sleep(n)` (yield from)
+				- `gevent.join(g)`
+				- `gevent.joinall([...])`
+				- `greenlet.link(g)`
+				- `gevent.shutdown`
 				- Greenlet states
 				- Timeouts
-				- `gevent.shutdown`
 				</section>
 				<section>
 				## exempli gratia
