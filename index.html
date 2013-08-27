@@ -51,21 +51,109 @@
 
 				<section>
 				## Gevent
-				- 	 foo
+				"*[gevent](http://gevent.org/) is a coroutine-based Python networking library that uses greenlet to provide a high-level synchronous API on top of the libevent event loop.*"
 				</section>
 
 				<section>
 				## Asynchronous
 				- Asynchronous != concurrent
 				- Non-blocking I/O
+				- CPU bound vs I/O bound
 				- Don't mention the War`^W`GIL
 				</section>
 
 				<section>
 				## Green threads
+				- aka Tasklets, micro threads etc.
 				- Lightweight cooperative "threads"
-				- Stack *haxxx*
-				- `greenlet` module
+				- Turns coroutines into full switchable "stacks"
+				- Stackless Python and the `greenlet` module
+				</section>
+
+				<section>
+				## What makes Gevent different?
+				- Implicit event loop
+				- Synchronous API
+				- **Monkey patching**
+				</section>
+
+				<section>
+				## Out of the box
+				- Non-blocking sockets, and DNS queries
+				- SSL support
+				- TCP server, WSGI server (&lt;1.0.x)
+				- libevent (now libev)
+				</section>
+
+				<section>
+				<section>
+				## WSGI?
+				- Plug in a Flask app, patch and go
+				- Multiple instances bound to a single socket/port
+				</section>
+				<section>
+				## exempli gratia
+				</section>
+				</section>
+
+				<section>
+				## One Point Oh
+				- **libev**
+				- `gevent.subprocess`
+				- [PyPy](https://github.com/gevent-on-pypy/pypycore)
+				</section>
+
+				<section>
+				## Celery
+				- Gevent task runner
+				- Use within processes manually
+				- **Caution**: defaults ahead
+				</section>
+
+				<section>
+				<section>
+				## Spawning
+				- `Greenlet` class
+				- `Greenlet.spawn(c, [...])`
+				- `greenlet.spawn(c, [...])`
+				</section>
+				<section>
+				## Coroutines and yielding
+				- `gevent.sleep(n)`
+				- Most network libraries will implicitly yield for you, or it'll just work with monkey patching(*)
+				</section>
+				<section>
+				## Flow control
+				- `gevent.joinall(...)`
+				- `gevent.link(g)`
+				- Greenlet states
+				- Timeouts
+				- `gevent.shutdown`
+				</section>
+				<section>
+				## exempli gratia
+				</section>
+				<section>
+				## Data structures
+				- Events and Queues (like the standard library)
+				- Groups/Pools/Locks/Semaphores
+				- Thread locals
+				</section>
+				<section>
+				## Monkey patching
+				- `patch_socket()`
+				- `patch_ssl()`
+				- `patch_time()`
+				- `patch_select()`
+				- `patch_thread()`
+				- `patch_all()`
+				</section>
+				</section>
+
+				<section>
+				## Anything else?
+				- Requests and **NOOP**s
+				- ZeroMQ
 				</section>
 
 				<section>
