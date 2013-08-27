@@ -222,16 +222,16 @@
 
 				        def _handle_metrics_request(self, payload):
 
-					    resp = requests.post(METRICS_URL,
-					                data=json.dumps(payload))
+					        resp = requests.post(METRICS_URL,
+					                   data=json.dumps(payload))
 
-					    if resp.status_code == 200:
-					        logging.info(...)
-					        return True
-					    else:
-					        self.log_error(
-					        logging.error(...)
-					         return False
+					        if resp.status_code == 200:
+					            logging.info(...)
+					            return True
+					        else:
+					            self.log_error(
+					            logging.error(...)
+					            return False
 				</section>
 				</section>
 
