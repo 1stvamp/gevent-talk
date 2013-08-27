@@ -92,7 +92,31 @@
 				- Multiple instances bound to a single socket/port
 				</section>
 				<section>
-				## exempli gratia
+				### exempli gratia
+
+				    from gevent.wsgi import WSGIServer
+				    from gevent.socket import tcp_listener
+				    from multiprocessing import Process, cpu_count
+				    from serverdensity.proxy.app import app
+
+
+				    def run(app):
+				        http_server = WSGIServer(('', None), app)
+				        http_server.serve_forever()
+
+				</section>
+				<section>
+				### exempli gratia cont.
+
+				    listener = tcp_listener(('127.0.0.1', 8000))
+
+				    for i in xrange((cpu_count() - 1)):
+				        Process(
+				            target=run,
+				            args=(app,)
+				        ).start()
+
+				    run(app, None, listener)
 				</section>
 				</section>
 
@@ -101,13 +125,6 @@
 				- **libev**
 				- `gevent.subprocess`
 				- [PyPy](https://github.com/gevent-on-pypy/pypycore)
-				</section>
-
-				<section>
-				## Celery
-				- Gevent task runner
-				- Use within processes manually
-				- **Caution**: defaults ahead
 				</section>
 
 				<section>
@@ -128,7 +145,22 @@
 				- Timeouts
 				</section>
 				<section>
-				## exempli gratia
+				### exempli gratia
+				    from gevent import spawn, joinall, sleep
+
+				    def g():
+				        print('foo')
+				        sleep(0)
+				        print('bar')
+
+				    joinall([spawn(g), spawn(g)])
+				</section>
+				<section>
+				### exempli gratia cont.
+				    foo
+				    foo
+				    bar
+				    bar
 				</section>
 				<section>
 				## Data structures
@@ -148,9 +180,66 @@
 				</section>
 
 				<section>
-				## Anything else?
-				- Requests and **NOOP**s
-				- ZeroMQ
+				## Celery
+				- Gevent task runner
+				- Use within processes manually
+				- **Caution**: defaults ahead
+				</section>
+
+				<section>
+				<section>
+				## *NOOP*-ish exempli gratia
+
+				    # -&gt; HTTP request
+				    mongo.payloads.insert(payloads)
+				    tasks.process_payload.apply_async(payload_id)
+
+				    # -&gt; celery task (inside a greenlet)
+				    @task
+				    def process_payload(payload_id):
+				        payload = mongo.payloads.findOne({...})
+
+					process = PayloadProcessor(payload)
+					...
+					return process_alerts.apply_async(payload_id)
+				</section>
+				<section>
+				### cont.
+
+				    # inside PayloadProcessor
+				    # (still within a greenlet, controlled by Celery
+
+				    def send_metrics(self):
+				        payload = copy(self.payload)
+
+				        # remove some fields we don't want to send,
+				        # turn some to strings
+
+				        gevent.spawn(self._handle_metrics_request, [payload])
+				</section>
+				<section>
+				### cont.
+
+				        def _handle_metrics_request(self, payload):
+
+					    resp = requests.post(METRICS_URL,
+					                data=json.dumps(payload))
+
+					    if resp.status_code == 200:
+					        logging.info(...)
+					        return True
+					    else:
+					        self.log_error(
+					        logging.error(...)
+					         return False
+				</section>
+				</section>
+
+				<section>
+				## Notable mentions
+				- [grequests](https://github.com/kennethreitz/grequests)
+				- [geventreactor](https://github.com/jyio/geventreactor)
+				- [ZeroMQ](https://github.com/traviscline/gevent-zeromq)
 				</section>
 
 				<section>
