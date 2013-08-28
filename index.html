@@ -100,8 +100,8 @@
 				    from serverdensity.proxy.app import app
 
 
-				    def run(app):
-				        http_server = WSGIServer(('', None), app)
+				    def run(app, listener):
+				        http_server = WSGIServer(listener, app)
 				        http_server.serve_forever()
 
 				</section>
@@ -113,10 +113,10 @@
 				    for i in xrange((cpu_count() - 1)):
 				        Process(
 				            target=run,
-				            args=(app,)
+				            args=(app, listener)
 				        ).start()
 
-				    run(app, None, listener)
+				    run(app, listener)
 				</section>
 				</section>
 
@@ -229,9 +229,35 @@
 					            logging.info(...)
 					            return True
 					        else:
-					            self.log_error(
 					            logging.error(...)
 					            return False
+				</section>
+				<section>
+				### deus e.g.
+				    def update_check(self, response):
+				        # update collections in Mongo from response
+				        ...
+
+				    def update_metrics(self):
+				        # send a request to the metrics service
+				        ...
+
+				    def update_inventory(self):
+				        # send a request to the inventory service
+				        ...
+
+				</section>
+				<section>
+				### deus e.g. cont.
+				    # run from a celery task
+				    def health_check(self):
+				        # get HTTP response from actors
+				        ...
+
+				        update_greenlet = spawn(self.update_check, [response])
+
+				        update_greenlet.link(spawn(self.update_metrics))
+				        update_greenlet.link(spawn(self.update_inventory))
 				</section>
 				</section>
 
